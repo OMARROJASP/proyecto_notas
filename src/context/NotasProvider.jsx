@@ -4,17 +4,31 @@ import {NotasContext} from "./NotasContext.jsx";
 
 export const NotasProvider =({children}) => {
 
+
     const {
         notas,
         notaInicialFormulario,
-        cargarDatos
+        seleccionarForm,
+        cargarDatos,
+        agregarNota,
+        eliminarNota,
+        filtarNotaPalabraClave,
+        seleccionarNotaFormulario,
+        LimpiarFormularioNotas
     } = useNotas();
 
     return(
         <NotasContext.Provider value={
-            { notas,
+            {
+                notas,
                 notaInicialFormulario,
-                cargarDatos
+                seleccionarForm,
+                cargarDatos,
+                agregarNota,
+                eliminarNota,
+                filtarNotaPalabraClave,
+                seleccionarNotaFormulario,
+                LimpiarFormularioNotas
             }
         }>
             {children}

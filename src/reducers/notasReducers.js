@@ -1,11 +1,11 @@
 export const notasReducers =(state=[],action) => {
 
     switch (action.type){
-        case "agregarNotas":
+        case "agregarNota":
             return [
-                ...state,{
-                ...action.pauload
-                }
+                ...state,
+                {
+                ...action.payload}
             ];
         case "actualizarNotas":
             return state.map(u => {
@@ -20,6 +20,16 @@ export const notasReducers =(state=[],action) => {
             })
         case "eliminarNotas":
             return state.filter(n=> (n.id !== action.payload));
+        case "cargarNotas":
+            return action.payload;
+        case 'filtarNotas':
+            return state.filter(nota => {
+                if(nota.titulo.toString().toLowerCase().includes(action.payload.toLowerCase())
+                    || nota.descripcion.toString().toLowerCase().includes(action.payload.toLowerCase())
+                ){
+                    return state;
+                }
+            })
         default:
             return state;
     }

@@ -19,6 +19,8 @@ export const guardarNotas= async ({titulo, descripcion, usuario}) => {
                 'Authorization': token
             }
         }
+        console.log(titulo)
+        console.log(usuario)
 
         const response = await axios.post(`${BASE_URL}/notas`, {
             titulo,
@@ -34,13 +36,21 @@ export const guardarNotas= async ({titulo, descripcion, usuario}) => {
     }
 }
 
-export const actualizarNotas = async ({id, titulo, descripcion})=> {
+export const actualizarNotas = async ({id, titulo, descripcion,usuario})=> {
 
-    try {
+
+        try {
+            const token = sessionStorage.getItem('token');
+            const axiosConfig = {
+                headers: {
+                    'Authorization': token
+                }
+            }
         return await axios.put(`${BASE_URL}/notas/${id}`,{
             titulo,
-            descripcion
-        })
+            descripcion,
+            usuario
+        },axiosConfig)
     }catch (e){
         console.error(e);
     }
@@ -48,8 +58,14 @@ export const actualizarNotas = async ({id, titulo, descripcion})=> {
 
 export const eliminarNotas = async (id)=> {
     try {
-        console.log(id)
-         await axios.delete(`${BASE_URL}/notas/${id}`);
+        const token = sessionStorage.getItem('token');
+        const axiosConfig = {
+            headers: {
+                'Authorization': token
+            }
+        }
+
+         await axios.delete(`${BASE_URL}/notas/${id}`,axiosConfig);
     }catch (e){
         console.error(e);
     }

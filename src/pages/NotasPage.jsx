@@ -11,6 +11,8 @@ export const NotasPage =() => {
                          <div className={"col-4"} >
                              <ModuloFormulario/>
                          </div>
+
+
                          <div className={"col-8"}>
                              <ListaNotas/>
                          </div>
@@ -19,4 +21,12 @@ export const NotasPage =() => {
              </>
 
     )
+    /*
+      <div className="text-center">
+                <div className="spinner-border" role="status">
+                    <span className="visually-hidden">Cargando...</span>
+                </div>
+                <span>Cargando...</span>
+            </div>
+     */
 }

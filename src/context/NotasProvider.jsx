@@ -10,13 +10,15 @@ export const NotasProvider =({children}) => {
         notas,
         notaInicialFormulario,
         seleccionarForm,
+        loadingNota,
         cargarDatos,
         agregarNota,
         eliminarNota,
         filtarNotaPalabraClave,
         seleccionarNotaFormulario,
         LimpiarFormularioNotas,
-        cargarNotaUsuario
+        cargarNotaUsuario,
+        LimpiarStateNota
     } = useNotas();
 
     const {
@@ -29,6 +31,7 @@ export const NotasProvider =({children}) => {
                 notas,
                 notaInicialFormulario,
                 seleccionarForm,
+                loadingNota,
                 cargarDatos,
                 agregarNota,
                 eliminarNota,
@@ -36,7 +39,8 @@ export const NotasProvider =({children}) => {
                 seleccionarNotaFormulario,
                 LimpiarFormularioNotas,
                 cargarNotaUsuario,
-                cargarUsuario
+                cargarUsuario,
+                LimpiarStateNota
             }
         }>
             {children}

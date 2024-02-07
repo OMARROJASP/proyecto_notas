@@ -6,12 +6,12 @@ import {AuthContext} from "../../auth/context/AuthContext.jsx";
 
 export const ListaNotas =()=> {
 
-    const {notas,cargarNotaUsuario} = useContext(NotasContext);
+    const {notas,cargarNotaUsuario,loadingNota} = useContext(NotasContext);
     const {user} = useContext(AuthContext)
     const [nombre, setNombre] = useState(user);
 
     const cargarTodosDatos =(nombre)=> {
-        console.log(nombre)
+
         cargarNotaUsuario(nombre)
         //cargarDatos();
     }
@@ -20,28 +20,36 @@ export const ListaNotas =()=> {
 
         cargarTodosDatos(nombre)
        // cargarTodosDatos()
-    }, []);
+    }, [loadingNota]);
 
 
 
 
-    return(
-        <div className={"align-items-center"}>
-            <h1 className={"text-center"}>Lista de notas</h1>
-            <ul className="list-unstyled">
-                {notas.map((nota) => (
-                    // eslint-disable-next-line react/jsx-key
-                    <li >
-                        <Nota
-                            key={nota.id}
-                            id={nota.id}
-                            titulo={nota.titulo}
-                            descripcion={nota.descripcion}
-                            nota={nota}
-                        />
-                    </li>
-                ))}
-            </ul>
+    return (
+        <div className="align-items-center">
+            <h1 className="text-center">Lista de notas</h1>
+            {loadingNota ? (
+                <div className="text-center">
+                    <div className="spinner-border" role="status">
+                        <span className="visually-hidden">Cargando...</span>
+                    </div>
+                    <span>Cargando...</span>
+                </div>
+            ) : (
+                <ul className="list-unstyled">
+                    {notas.map((nota) => (
+                        <li key={nota.id}>
+                            <Nota
+                                key={nota.id}
+                                id={nota.id}
+                                titulo={nota.titulo}
+                                descripcion={nota.descripcion}
+                                nota={nota}
+                            />
+                        </li>
+                    ))}
+                </ul>
+            )}
         </div>
-    )
+    );
 }

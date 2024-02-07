@@ -22,6 +22,8 @@ export const notasReducers =(state=[],action) => {
             return state.filter(n=> (n.id !== action.payload));
         case "cargarNotas":
             return action.payload;
+        case "vaciarNotas":
+            return [];
         case 'filtarNotas':
             return state.filter(nota => {
                 if(nota.titulo.toString().toLowerCase().includes(action.payload.toLowerCase())

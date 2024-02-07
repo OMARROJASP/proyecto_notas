@@ -1,10 +1,14 @@
 import {useContext, useEffect, useState} from "react";
 import {NotasContext} from "../context/NotasContext.jsx";
 import {AuthContext} from "../auth/context/AuthContext.jsx";
-
 export const ModuloFormulario =()=> {
 
-    const {notaInicialFormulario,agregarNota,cargarUsuario,cargarNotaUsuario} = useContext(NotasContext)
+    const {notaInicialFormulario,
+        agregarNota,
+        cargarUsuario,
+        cargarNotaUsuario,
+        LimpiarStateNota
+    } = useContext(NotasContext)
     const {user} = useContext(AuthContext)
 
     const [formularioNota, setFormularioNota] = useState({
@@ -13,48 +17,50 @@ export const ModuloFormulario =()=> {
         descripcion: '',
         usuario:null
     });
-    const {titulo, descripcion,usuario} = formularioNota;
-    const [nombreUser, setNombreUser] = useState(user);
+
+    const [cargar, setCargar] = useState(false);
+    const { titulo, descripcion } = formularioNota;
 
     useEffect(() => {
-        const cargarDatosUsuario = async () => {
-            try {
-                const usuarioCargado = await cargarUsuario(user);
-                setFormularioNota({
-                    ...formularioNota,
-                    usuario: usuarioCargado
-                });
-            } catch (error) {
-                console.error("Error al cargar el usuario:", error);
-            }
-        };
+        cargarDatosUsuario(); // Cargar datos del usuario al montar el componente
+    }, []); // Sin dependencias, solo se ejecuta una vez al montar el componente
 
-        if (user) {
-            cargarDatosUsuario();
-        }
-    }, [user]);
 
-    const onChangeValue =({target})=> {
-        const {name, value} = target;
-        setFormularioNota(
-            {
+    useEffect(() => {
+        cargarDatosUsuario(); // Cargar datos del usuario al montar el componente
+    }, [cargar]);
+    const cargarDatosUsuario = async () => {
+        try {
+            const usuarioCargado = await cargarUsuario(user);
+            setFormularioNota({
                 ...formularioNota,
-                [name]:value
-            }
-        )
-    }
-
-    const onSubmit=(event)=> {
-        event.preventDefault();
-        if(!titulo || !descripcion){
-            alert("Llene los campos correspondientes")
-            return;
-
+                usuario: usuarioCargado
+            });
+        } catch (error) {
+            console.error("Error al cargar el usuario:", error);
         }
-        agregarNota(formularioNota)
-        setFormularioNota(notaInicialFormulario)
-        cargarNotaUsuario(nombreUser)
-    }
+    };
+
+    const onChangeValue = ({ target }) => {
+        const { name, value } = target;
+        setFormularioNota({
+            ...formularioNota,
+            [name]: value
+        });
+    };
+
+    const onSubmit =  (event) => {
+        setCargar(!cargar);
+        event.preventDefault();
+        if (!titulo || !descripcion) {
+            alert("Llene los campos correspondientes");
+            return;
+        }
+
+        agregarNota(formularioNota);
+        setFormularioNota(notaInicialFormulario);
+        LimpiarStateNota();
+    };
 
     return(
         <form onSubmit={onSubmit}
@@ -84,6 +90,7 @@ export const ModuloFormulario =()=> {
             <div className="mt-auto">
                 <button className="btn btn-primary" type="submit">Guardar</button>
             </div>
+
         </form>
 
 

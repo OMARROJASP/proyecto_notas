@@ -15,9 +15,7 @@ const notaInicialFormulario = {
     id: 0,
     titulo:'' ,
     descripcion:'',
-    usuario:{
-        id:0
-    }
+    usuario:null
 
 }
 
@@ -25,6 +23,7 @@ export const useNotas =()=> {
 
     const [notas, dispatch] = useReducer(notasReducers,notasIniciales);
     const [seleccionarForm,setSeleccionarForm] = useState(notaInicialFormulario)
+    const [loadingNota,setLoadingNota] = useState(false);
 
 
 //let filterN  = [...notas]
@@ -59,6 +58,7 @@ export const useNotas =()=> {
         })
     }
 
+
     const agregarNota = async (nota) => {
 
         let response ;
@@ -85,7 +85,13 @@ export const useNotas =()=> {
     }
 
     const cargarNotaUsuario =async (username)=> {
+
+
+
+        setLoadingNota(false);
+
         const response = await traerUsuario(username);
+
 
 
         const {id} = response;
@@ -94,10 +100,19 @@ export const useNotas =()=> {
             type:'cargarNotas',
             payload: result.data
         })
+
     }
 
     const seleccionarNotaFormulario =(nota) => {
         setSeleccionarForm({...nota})
+    }
+
+    const LimpiarStateNota =()=> {
+        setLoadingNota(true);
+        dispatch({
+            type:'vaciarNotas',
+            payload: null
+        })
     }
 
     const LimpiarFormularioNotas =()=> {
@@ -108,13 +123,15 @@ export const useNotas =()=> {
         notas,
         notaInicialFormulario,
         seleccionarForm,
+        loadingNota,
         cargarDatos,
         agregarNota,
         eliminarNota,
         filtarNotaPalabraClave,
         seleccionarNotaFormulario,
         LimpiarFormularioNotas,
-        cargarNotaUsuario
+        cargarNotaUsuario,
+        LimpiarStateNota
     }
 
 }

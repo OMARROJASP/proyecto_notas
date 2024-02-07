@@ -9,10 +9,9 @@ export const traerUsuario = async (username)=>{
                 'Authorization': token
             }
         }
-        console.log(username)
 
         const response = await axios.get(`${BASE_URL}/usuario/id/${username}`, axiosConfig);
-        console.log(response.data)
+
         return response.data;
     } catch (e){
         console.error(e);

@@ -21,10 +21,10 @@ export const useAuth = () => {
         try {
             const response = await loginUser({ nombre, contrasena });
 
-            console.log(response.data.username)
+
             const token = response.data.token;
             const claims = JSON.parse(window.atob(token.split(".")[1]));
-            console.log(claims);
+
             const user = { name: claims.sub }
             setUser(response.data.username)
             dispatch({
@@ -39,7 +39,7 @@ export const useAuth = () => {
             sessionStorage.setItem('token', `Bearer ${token}`);
 
 
-            console.log(user.name)
+
             navigate('/notas/');
 
 

@@ -1,13 +1,24 @@
 import {useReducer, useState} from "react";
 import {notasReducers} from "../reducers/notasReducers.js";
-import {actualizarNotas, eliminarNotas, guardarNotas, traerTodasNotas} from "../services/notasService.js";
+import {
+    actualizarNotas,
+    eliminarNotas,
+    guardarNotas,
+    TraerNotasDelUsuario,
+    traerTodasNotas
+} from "../services/notasService.js";
+import {traerUsuario} from "../services/userService.js";
 
 const notasIniciales=[]
 
 const notaInicialFormulario = {
     id: 0,
     titulo:'' ,
-    descripcion:''
+    descripcion:'',
+    usuario:{
+        id:0
+    }
+
 }
 
 export const useNotas =()=> {
@@ -73,6 +84,18 @@ export const useNotas =()=> {
         })
     }
 
+    const cargarNotaUsuario =async (username)=> {
+        const response = await traerUsuario(username);
+
+
+        const {id} = response;
+        const result = await TraerNotasDelUsuario(id);
+        dispatch({
+            type:'cargarNotas',
+            payload: result.data
+        })
+    }
+
     const seleccionarNotaFormulario =(nota) => {
         setSeleccionarForm({...nota})
     }
@@ -90,7 +113,8 @@ export const useNotas =()=> {
         eliminarNota,
         filtarNotaPalabraClave,
         seleccionarNotaFormulario,
-        LimpiarFormularioNotas
+        LimpiarFormularioNotas,
+        cargarNotaUsuario
     }
 
 }

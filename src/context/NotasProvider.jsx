@@ -1,5 +1,6 @@
 import {useNotas} from "../hooks/useNotas.js";
 import {NotasContext} from "./NotasContext.jsx";
+import {useUser} from "../hooks/useUser.js";
 
 
 export const NotasProvider =({children}) => {
@@ -14,8 +15,13 @@ export const NotasProvider =({children}) => {
         eliminarNota,
         filtarNotaPalabraClave,
         seleccionarNotaFormulario,
-        LimpiarFormularioNotas
+        LimpiarFormularioNotas,
+        cargarNotaUsuario
     } = useNotas();
+
+    const {
+        cargarUsuario
+    } = useUser()
 
     return(
         <NotasContext.Provider value={
@@ -28,7 +34,9 @@ export const NotasProvider =({children}) => {
                 eliminarNota,
                 filtarNotaPalabraClave,
                 seleccionarNotaFormulario,
-                LimpiarFormularioNotas
+                LimpiarFormularioNotas,
+                cargarNotaUsuario,
+                cargarUsuario
             }
         }>
             {children}

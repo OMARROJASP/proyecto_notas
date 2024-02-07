@@ -5,7 +5,7 @@ import {AuthContext} from "../../auth/context/AuthContext.jsx";
 
 
 export const Navbar =()=> {
-    const {user} = useContext(AuthContext)
+    const {user, handlerLogout} = useContext(AuthContext)
 
     const { filtarNotaPalabraClave,cargarDatos} = useContext(NotasContext);
     const [palabraClave, setPalabraClave] = useState('');
@@ -26,6 +26,10 @@ export const Navbar =()=> {
         filtarNotaPalabraClave(palabraClave)
 
 
+    }
+
+    const cerrarSesion=()=> {
+        handlerLogout();
     }
 
 
@@ -72,6 +76,14 @@ export const Navbar =()=> {
                     <span className="text-white">
     ¡Hola, {usuario}!
   </span>
+                </div>
+                <div>
+                    <button
+                        className={"btn btn-danger"}
+                        onClick={cerrarSesion}
+                    >
+                        Cerrar sesion
+                    </button>
                 </div>
             </div>
         </nav>

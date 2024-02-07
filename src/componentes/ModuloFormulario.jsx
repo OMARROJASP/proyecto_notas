@@ -1,12 +1,38 @@
-import {useContext, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {NotasContext} from "../context/NotasContext.jsx";
+import {AuthContext} from "../auth/context/AuthContext.jsx";
 
 export const ModuloFormulario =()=> {
 
-    const {notaInicialFormulario,agregarNota} = useContext(NotasContext)
+    const {notaInicialFormulario,agregarNota,cargarUsuario,cargarNotaUsuario} = useContext(NotasContext)
+    const {user} = useContext(AuthContext)
 
-    const [formularioNota, setFormularioNota] = useState(notaInicialFormulario)
-    const {titulo, descripcion} = formularioNota;
+    const [formularioNota, setFormularioNota] = useState({
+        ...notaInicialFormulario,
+        titulo: '',
+        descripcion: '',
+        usuario:null
+    });
+    const {titulo, descripcion,usuario} = formularioNota;
+    const [nombreUser, setNombreUser] = useState(user);
+
+    useEffect(() => {
+        const cargarDatosUsuario = async () => {
+            try {
+                const usuarioCargado = await cargarUsuario(user);
+                setFormularioNota({
+                    ...formularioNota,
+                    usuario: usuarioCargado
+                });
+            } catch (error) {
+                console.error("Error al cargar el usuario:", error);
+            }
+        };
+
+        if (user) {
+            cargarDatosUsuario();
+        }
+    }, [user]);
 
     const onChangeValue =({target})=> {
         const {name, value} = target;
@@ -27,7 +53,7 @@ export const ModuloFormulario =()=> {
         }
         agregarNota(formularioNota)
         setFormularioNota(notaInicialFormulario)
-
+        cargarNotaUsuario(nombreUser)
     }
 
     return(
@@ -55,10 +81,8 @@ export const ModuloFormulario =()=> {
                     onChange={onChangeValue}
                 ></textarea>
             </div>
-            <div className="mt-auto"
-                 type={'submit'}
-            >
-                <button className="btn btn-primary">Guardar</button>
+            <div className="mt-auto">
+                <button className="btn btn-primary" type="submit">Guardar</button>
             </div>
         </form>
 

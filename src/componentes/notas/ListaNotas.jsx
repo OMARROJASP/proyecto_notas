@@ -1,19 +1,25 @@
 import {Nota} from "./Nota.jsx";
 import {useContext, useEffect, useState} from "react";
 import {NotasContext} from "../../context/NotasContext.jsx";
+import {AuthContext} from "../../auth/context/AuthContext.jsx";
 
 
 export const ListaNotas =()=> {
 
-    const {notas, cargarDatos} = useContext(NotasContext);
+    const {notas,cargarNotaUsuario} = useContext(NotasContext);
+    const {user} = useContext(AuthContext)
+    const [nombre, setNombre] = useState(user);
 
-
-    const cargarTodosDatos =()=> {
-        cargarDatos();
+    const cargarTodosDatos =(nombre)=> {
+        console.log(nombre)
+        cargarNotaUsuario(nombre)
+        //cargarDatos();
     }
 
     useEffect(() => {
-        cargarTodosDatos()
+
+        cargarTodosDatos(nombre)
+       // cargarTodosDatos()
     }, []);
 
 
@@ -21,12 +27,13 @@ export const ListaNotas =()=> {
 
     return(
         <div className={"align-items-center"}>
-
             <h1 className={"text-center"}>Lista de notas</h1>
             <ul className="list-unstyled">
-                {notas.map(nota => (
-                    <li key={nota.id}>
+                {notas.map((nota) => (
+                    // eslint-disable-next-line react/jsx-key
+                    <li >
                         <Nota
+                            key={nota.id}
                             id={nota.id}
                             titulo={nota.titulo}
                             descripcion={nota.descripcion}
@@ -35,8 +42,6 @@ export const ListaNotas =()=> {
                     </li>
                 ))}
             </ul>
-
-
         </div>
     )
 }

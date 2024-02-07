@@ -14,6 +14,7 @@ export const Nota =({id,titulo,descripcion,nota})=> {
         <div className="card m-3">
             <div className="card-body">
                 <h5 className="card-title text-start">{titulo}</h5>
+                <p className={'card-text'}>{id}</p>
                 <p className={'card-text'}>{descripcion}</p>
                 <hr/>
                 <div className={"d-flex justify-content-start gap-2"}>

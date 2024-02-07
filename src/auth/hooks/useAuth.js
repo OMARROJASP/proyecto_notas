@@ -38,7 +38,11 @@ export const useAuth = () => {
             }));
             sessionStorage.setItem('token', `Bearer ${token}`);
 
-            navigate('/notas');
+
+            console.log(user.name)
+            navigate('/notas/');
+
+
         } catch (error) {
             if (error.response?.status == 401) {
                 Swal.fire('Error Login', 'nombre o contraseña invalidos', 'error');

@@ -7,23 +7,23 @@ import {AuthContext} from "../../auth/context/AuthContext.jsx";
 export const Navbar =()=> {
     const {user, handlerLogout} = useContext(AuthContext)
 
-    const { filtarNotaPalabraClave,cargarDatos} = useContext(NotasContext);
+    const { filtarNotaPalabraClave,cargarNotaUsuario} = useContext(NotasContext);
     const [palabraClave, setPalabraClave] = useState('');
     const [usuario, setUsuario] = useState(user)
     const onChangeValue =({target})=>{
         const {value} = target;
         setPalabraClave(value)
-        console.log(user)
         if(value===""){
-            cargarDatos()
+            cargarNotaUsuario(user)
 
         }
 
     }
 
-    const onSubmit =(event)=> {
+    const onSubmit = async (event)=> {
         event.preventDefault()
-        filtarNotaPalabraClave(palabraClave)
+
+        filtarNotaPalabraClave(palabraClave, user)
 
 
     }

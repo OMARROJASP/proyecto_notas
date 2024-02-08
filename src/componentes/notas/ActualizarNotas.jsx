@@ -1,12 +1,15 @@
 import {useContext, useState} from "react";
-import {NotasContext} from "../../context/NotasContext.jsx";;
+import {NotasContext} from "../../context/NotasContext.jsx";
 import {NavLink} from "react-router-dom";
+import {AuthContext} from "../../auth/context/AuthContext.jsx";
 
 export const ActualizarNotas =()=> {
     const {agregarNota,seleccionarForm,notaInicialFormulario,LimpiarFormularioNotas} = useContext(NotasContext)
 
-    const [formularioNota, setFormularioNota] = useState(seleccionarForm)
+    const [formularioNota, setFormularioNota] = useState(seleccionarForm);
     const {titulo, descripcion} = formularioNota;
+    const {user} = useContext(AuthContext)
+
 
     const onChangeValue =({target})=> {
         const {name, value} = target;
@@ -25,10 +28,12 @@ export const ActualizarNotas =()=> {
     }
 
     const onSubmit=(event)=> {
+        console.log(formularioNota);
         event.preventDefault();
         if(!titulo || !descripcion){
             alert("Llene los campos correspondientes")
             return;
+
 
         }
         agregarNota(formularioNota)

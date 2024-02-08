@@ -27,14 +27,17 @@ export const useNotas =()=> {
 
 
 //let filterN  = [...notas]
-    const filtarNotaPalabraClave =async(palabraClave)=> {
+    const filtarNotaPalabraClave =async(palabraClave, user)=> {
         // filterN = notas.filter(n =>
         //     n.titulo.toString().toLowerCase().includes(palabraClave.toLowerCase())
         // )
         // console.log(filterN);
         // setFiltrarNotas(...filterN)
         // console.log(filtrarNotas);
-        const result = await traerTodasNotas();
+        const response = await traerUsuario(user);
+
+        const {id} = response;
+        const result = await TraerNotasDelUsuario(id);
         dispatch({
             type:'cargarNotas',
             payload: result.data
